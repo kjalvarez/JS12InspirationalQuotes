@@ -35,14 +35,14 @@ $(document).ready(function() {
 		removedBox.fadeOut();
 		removedBox.before(undoButton);
 		undoButton.fadeIn();
-		setTimeout(removedBox.remove, 3000); 
+		setTimeout(removedBox.remove.bind(removedBox), 1000); 
 		$('.undo').click(function() {
 			$(this).fadeOut();
 			$(this).before(removedBox);
 			removedBox.fadeIn();
 			var that = this;
 			setTimeout(
-				$(that).parent().remove, 3000);
+				$(that).remove, 3000);
 		})
 	})
 
@@ -69,8 +69,63 @@ $(document).ready(function() {
 		$(quoteToShow).show();
 	})
 
+	$(document).on("click", ".star-image", function() {
+
+		var starImages = $(this).closest(".starwrapper").find(".star-image");
+		$(this).closest('.quotebox').attr('data-rating',$(this).index()+1);
+		var that = this;
+		starImages.each(function(i,elem) {
+			if (i <= $(that).index()) {
+				$(elem).attr("src", "star.png");
+			}
+			else {
+				$(elem).attr("src", "largesilverstar.jpg");
+			}
+		})
+
+		var sortOrder = Array.prototype.sort.call($('.quotebox'), function(a,b){
+			console.log($(a).attr('data-rating'));
+			if($(a).attr('data-rating')<$(b).attr('data-rating')){
+				return -1
+			} else if ($(a).attr('data-rating')>$(b).attr('data-rating')){
+				return 1
+			} else {
+				return 0;
+			}
+			})
+		sortOrder.each(function(i,elem){
+			$('#quoteForm').after(elem);
+		})
+	})
+
+
+
+
+
 
 
 
 })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
