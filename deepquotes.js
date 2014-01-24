@@ -1,37 +1,76 @@
 $(document).ready(function() {
-	var numQuotes = Array.prototype.slice.call($('.quotebox')).length
-	
+	var removedBox = null;
+	var undoButton = $('<button class= "undo">Undo</button>')
+
 	var getText = function(e){
 		e.preventDefault();
-		var quoteId = 'mainquote'+(numQuotes + 1);
-		console.log(quoteId);
+		var quotes = $('.quotebox');
+		var quoteNumber = quotes.length;
 		var newQuote = $('#quoteText').val();
 		var newAuthor = $('#authorText').val();
-		var quoteSentence = $('<p class= "quote">"'+newQuote+'"</p>');
-		var authorSentence = $('<h3 class="author">'+newAuthor+'</h3>');
-		var quoteElement = $('<div class= "quotebox">'+
-			'<div class="mainquote" id="'+quoteId+'">'+
-			'</div>'+
-			'<div class="stars">'+
-				'<div class = "starwrapper"></div>'+
-				'<button>Delete Quote</button>'+
-			'</div>');
-		$('.container').append(quoteElement);
-		$('#'+quoteId).append(quoteSentence);
-		$('#'+quoteId).append(authorSentence);
-		numQuotes++;
+		var newQuotebox = $('.quotebox:first').clone();
+		newQuotebox.attr('data-index',quoteNumber);
+		newQuotebox.find('.quote').text(newQuote);
+		newQuotebox.find('.author').text(newAuthor);
+		newQuotebox.hide();
+		$('.input-quote').after(newQuotebox);
+		newQuotebox.fadeIn();
 	}
 
 
-	$('#addQuote').click(function(){
-		$('#quoteForm').css('display','block');
+	$('#addQuote').click(function(e){
+		e.preventDefault();
+		$('#quoteForm').slideDown().css('display','inline-block');
 	})
 
-	$('#cancel').click(function() {
-		$('#quoteForm').css('display','none');
+	$('#cancel').click(function(e) {
+		e.preventDefault();
+		$('#quoteForm').slideUp();
 	})
 
 	$('#submit').click(getText);
+	
+	$(document).on('click', '.delete', function() {
+		removedBox = $(this).closest('.quotebox');
+		removedBox.fadeOut();
+		removedBox.before(undoButton);
+		undoButton.fadeIn();
+		setTimeout(removedBox.remove, 3000); 
+		$('.undo').click(function() {
+			$(this).fadeOut();
+			$(this).before(removedBox);
+			removedBox.fadeIn();
+			var that = this;
+			setTimeout(
+				$(that).parent().remove, 3000);
+		})
+	})
+
+	$(document).on('click', '.author', function() {
+		var authors = $('.author');
+		var that=this;
+		authors.each(function(ind,elem) {
+			var element = $(elem);
+			if ($(that).text()!==element.text()) {
+				element.closest('.quotebox').hide();
+			}
+		})
+	})
+
+	$('.showall').click(function() {
+		$('.quotebox').show();
+		$('.undo').hide();
+	})
+
+	$('.randombutton').click(function() {
+		var index = Math.floor($('.quotebox').length*Math.random());
+		var quoteToShow = $('.quotebox')[index];
+		$('.quotebox').hide();
+		$(quoteToShow).show();
+	})
+
+
 
 
 })
+
