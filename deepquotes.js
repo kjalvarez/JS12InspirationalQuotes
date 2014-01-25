@@ -52,21 +52,21 @@ $(document).ready(function() {
 		authors.each(function(ind,elem) {
 			var element = $(elem);
 			if ($(that).text()!==element.text()) {
-				element.closest('.quotebox').hide();
+				element.closest('.quotebox').slideUp();
 			}
 		})
 	})
 
 	$('.showall').click(function() {
-		$('.quotebox').show();
+		$('.quotebox').slideDown();
 		$('.undo').hide();
 	})
 
 	$('.randombutton').click(function() {
 		var index = Math.floor($('.quotebox').length*Math.random());
 		var quoteToShow = $('.quotebox')[index];
-		$('.quotebox').hide();
-		$(quoteToShow).show();
+		$('.quotebox').fadeOut();
+		$(quoteToShow).fadeIn();
 	})
 
 	$(document).on("click", ".star-image", function() {
@@ -94,18 +94,13 @@ $(document).ready(function() {
 			}
 			})
 		sortOrder.each(function(i,elem){
+			$(elem).slideUp();
 			$('#quoteForm').after(elem);
+			$(elem).slideDown();
 		})
 	})
-
-
-
-
-
-
-
-
 })
+
 
 
 

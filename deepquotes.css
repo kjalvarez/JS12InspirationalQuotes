@@ -9,6 +9,7 @@ button {
 	color: white;
 	padding: 5px 10px;
 	border-radius: 5px;
+	cursor: pointer;
 }
 
 .header button {
@@ -41,6 +42,9 @@ button {
 	font-size: 40px;
 }
 
+.author {
+	cursor: pointer;
+}
 
 .quotebox {
 	border-top: 1px solid #90B5F4;	
@@ -96,4 +100,5 @@ form p {
 
 .star-image {
 	max-height: 30px;
+	cursor: pointer;
 }
