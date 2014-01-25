@@ -83,6 +83,8 @@ $(document).ready(function() {
 			}
 		})
 
+		
+
 		var sortOrder = Array.prototype.sort.call($('.quotebox'), function(a,b){
 			console.log($(a).attr('data-rating'));
 			if($(a).attr('data-rating')<$(b).attr('data-rating')){
@@ -94,9 +96,10 @@ $(document).ready(function() {
 			}
 			})
 		sortOrder.each(function(i,elem){
-			$(elem).slideUp();
-			$('#quoteForm').after(elem);
-			$(elem).slideDown();
+			$(elem).slideUp('fast');
+			setTimeout(function(){
+				$('#quoteForm').after(elem);
+				$(elem).slideDown('fast')},600);
 		})
 	})
 })
