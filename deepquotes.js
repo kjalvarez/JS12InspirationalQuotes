@@ -31,13 +31,14 @@ $(document).ready(function() {
 	$('#submit').click(getText);
 	
 	$(document).on('click', '.delete', function() {
+		undoButton.css('display','none');
 		removedBox = $(this).closest('.quotebox');
-		removedBox.fadeOut();
+		removedBox.hide();
 		removedBox.before(undoButton);
 		undoButton.fadeIn();
-		setTimeout(removedBox.remove.bind(removedBox), 1000); 
+		setTimeout(removedBox.remove.bind(removedBox), 500); 
 		$('.undo').click(function() {
-			$(this).fadeOut();
+			$(this).hide();
 			$(this).before(removedBox);
 			removedBox.fadeIn();
 			var that = this;
@@ -65,7 +66,7 @@ $(document).ready(function() {
 	$('.randombutton').click(function() {
 		var index = Math.floor($('.quotebox').length*Math.random());
 		var quoteToShow = $('.quotebox')[index];
-		$('.quotebox').fadeOut();
+		$('.quotebox').hide();
 		$(quoteToShow).fadeIn();
 	})
 
